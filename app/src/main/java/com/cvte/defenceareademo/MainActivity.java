@@ -1,7 +1,7 @@
 package com.cvte.defenceareademo;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -10,6 +10,7 @@ import android.widget.ListView;
 import com.cvte.defencearea.DFMUtils;
 import com.cvte.defencearea.DefenceAreaCallback;
 import com.cvte.defencearea.DefenceAreaManager;
+import com.cvte.defencearea.OnBuzzerListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,6 +48,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.set)
     View mBtnSet;
 
+    @BindView(R.id.play)
+    View mBtnPlay;
+
+    @BindView(R.id.stop)
+    View mBtnStop;
+
     @BindView(R.id.list)
     ListView mListView;
     ArrayAdapter<String> mAdapter;
@@ -63,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //==================测试防区功能==================//
         mDefenceAreaManager = DFMUtils.getSystemService(this);
         mDefenceAreaManager.addDefenceAreaCallback(mCallback);
+        mDefenceAreaManager.addOnBuzzerListener(mListener);
 
         initViews();
     }
@@ -80,10 +88,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
+    private OnBuzzerListener mListener = new OnBuzzerListener() {
+        @Override
+        public void onStart() {
+            mAdapter.add("蜂鸣器打开了");
+        }
+
+        @Override
+        public void onStop() {
+            mAdapter.add("蜂鸣器关闭了");
+        }
+    };
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mDefenceAreaManager.removeDefenceAreaCallback(mCallback);
+        mDefenceAreaManager.removeOnBuzzerListener(mListener);
     }
 
     private void initViews() {
@@ -94,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBtnQueryEnabled.setOnClickListener(this);
         mBtnQueryState.setOnClickListener(this);
         mBtnSet.setOnClickListener(this);
+        mBtnPlay.setOnClickListener(this);
+        mBtnStop.setOnClickListener(this);
 
         mListView.setAdapter(mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1));
     }
@@ -129,6 +152,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (v.getId() == R.id.set) {
             mDefenceAreaManager.setAlarmType(num, type);
             mAdapter.add("设置防区" + num + " 类型:" + (type == 0 ? "开路报警" : "短路报警"));
+        } else if (v.getId() == R.id.play) {
+            mDefenceAreaManager.playBuzzer();
+            mAdapter.add("打开蜂鸣器");
+        } else if (v.getId() == R.id.stop) {
+            mDefenceAreaManager.stopBuzzer();
+            mAdapter.add("关闭蜂鸣器");
         }
     }
 }

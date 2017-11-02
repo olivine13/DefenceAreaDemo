@@ -88,4 +88,31 @@ for (int i = 0; i < 8; i++) {
 
 `mDefenceAreaManager.checkAlarmStatus(int alarmNum)`
 
+#### 1.2.7 蜂鸣器开关 #
+
+打开`mDefenceAreaManager.play()`
+
+
+关闭`mDefenceAreaManager.stop()`
+
+注册蜂鸣器监听
+```
+private OnBuzzerListener mListener = new OnBuzzerListener() {
+    @Override
+    public void onStart() {
+        mAdapter.add("蜂鸣器打开了");
+    }
+
+    @Override
+    public void onStop() {
+        mAdapter.add("蜂鸣器关闭了");
+    }
+};
+mDefenceAreaManager.addOnBuzzerListener(mListener);
+
+```
+
+移除监听
+`mDefenceAreaManager.removeOnBuzzerListener(mListener)`
+
 

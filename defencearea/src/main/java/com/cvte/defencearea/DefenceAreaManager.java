@@ -16,6 +16,14 @@ public abstract class DefenceAreaManager {
 
     public abstract boolean setAlarmType(int alarmNum, int alarmType);
 
+    public abstract boolean playBuzzer();
+
+    public abstract boolean stopBuzzer();
+
+    public abstract void addOnBuzzerListener(OnBuzzerListener listener);
+
+    public abstract void removeOnBuzzerListener(OnBuzzerListener listener);
+
     public abstract void addDefenceAreaCallback(DefenceAreaCallback listener);
 
     public abstract void removeDefenceAreaCallback(DefenceAreaCallback listener);
