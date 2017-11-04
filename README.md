@@ -45,8 +45,14 @@ protected void onCreate(Bundle savedInstanceState) {
 `mDefenceAreaManager.checkAlarmIsEnabled(int alarmNum)`
 
 #### 1.2.4 设置防区警报类型 #
-
-`mDefenceAreaManager.setAlarmType(int alarmNum, int alarmType)` 
+```
+/**
+* 设置报警类型
+* @param alarmNum 防区序号
+* @param alarmType 0：开路报警,1：短路报警
+*/
+mDefenceAreaManager.setAlarmType(int alarmNum, int alarmType)
+```
 
 #### 1.2.5 监听防区警报是否触发 #
 
