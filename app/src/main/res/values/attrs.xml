@@ -2,5 +2,8 @@
 <resources>
     <declare-styleable name="DefenceAreaLayout">
         <attr name="defenceAreaName" format="string"/>
+        <attr name="open" format="boolean"/>
+        <!-- 0是开路 1是短路-->
+        <attr name="type" format="integer"/>
     </declare-styleable>
 </resources>
