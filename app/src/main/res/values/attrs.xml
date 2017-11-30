@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="DefenceAreaLayout">
-        <attr name="defenceAreaName" format="string"/>
+        <attr name="num" format="integer"/>
         <attr name="open" format="boolean"/>
         <!-- 0是开路 1是短路-->
         <attr name="type" format="integer"/>

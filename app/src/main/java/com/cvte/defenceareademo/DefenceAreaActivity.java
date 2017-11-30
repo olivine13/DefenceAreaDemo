@@ -1,8 +1,12 @@
 package com.cvte.defenceareademo;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -42,19 +46,27 @@ public class DefenceAreaActivity extends Activity implements View.OnClickListene
             R.id.dal0, R.id.dal1, R.id.dal2, R.id.dal3, R.id.dal4, R.id.dal5, R.id.dal6, R.id.dal7
     };
 
+    private DefenceAreaLayout[] mLayouts = new DefenceAreaLayout[ids.length];
+
     SimpleDateFormat mFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
     DefenceAreaManager mDefenceAreaManager;
+
+    private int[] statusCode = new int[]{
+            0, 0, 0, 0, 0, 0, 0, 0
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_defence_area);
         ButterKnife.bind(this);
+
         //==================测试防区功能==================//
         mDefenceAreaManager = DFMUtils.getSystemService(this);
-        mDefenceAreaManager.addDefenceAreaCallback(mCallback);
 
         initViews();
+        mDefenceAreaManager.addDefenceAreaCallback(mCallback);
+
     }
 
     private void initViews() {
@@ -63,29 +75,31 @@ public class DefenceAreaActivity extends Activity implements View.OnClickListene
         mListView.setAdapter(mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1));
 
         for (int i = 0; i < ids.length; i++) {
-            final DefenceAreaLayout dal = (DefenceAreaLayout) findViewById(ids[i]);
+            mLayouts[i] = (DefenceAreaLayout) findViewById(ids[i]);
             final int num = i;
-            if(dal.getState()) {
+            if (mLayouts[i].getState()) {
                 mDefenceAreaManager.enableAlarm(num);
             }
-            mDefenceAreaManager.setAlarmType(num, dal.getType());
-            dal.setOnSwitcherListener(new DefenceAreaLayout.OnSwitcherListener() {
+            mDefenceAreaManager.setAlarmType(num, mLayouts[i].getType());
+            statusCode[i] = mDefenceAreaManager.checkAlarmStatus(i) ? 0 : 1;
+            Log.i("Test", "defencearea " + i + " : " + statusCode[i]);
+            mLayouts[i].setOnSwitcherListener(new DefenceAreaLayout.OnSwitcherListener() {
                 @Override
                 public void onSwitched(boolean flag) {
                     if (flag) {
                         mDefenceAreaManager.enableAlarm(num);
-                        mAdapter.add("打开 " + dal.getName());
+                        mAdapter.add("打开 " + mLayouts[num].getName());
                     } else {
                         mDefenceAreaManager.disableAlarm(num);
-                        mAdapter.add("关闭 " + dal.getName());
+                        mAdapter.add("关闭 " + mLayouts[num].getName());
                     }
                 }
             });
-            dal.setOnModeSwitchListener(new DefenceAreaLayout.OnModeSwitchListener() {
+            mLayouts[i].setOnModeSwitchListener(new DefenceAreaLayout.OnModeSwitchListener() {
                 @Override
                 public void onModeSwitched(int type) {
                     mDefenceAreaManager.setAlarmType(num, type);
-                    mAdapter.add("设置 " + dal.getName() + " 类型 " + (type == 0 ? "开路报警" : "闭路报警"));
+                    mAdapter.add("设置 " + mLayouts[num].getName() + " 类型 " + (type == 0 ? "开路报警" : "闭路报警"));
                 }
             });
         }
@@ -94,7 +108,7 @@ public class DefenceAreaActivity extends Activity implements View.OnClickListene
     private void checkAllStatus() {
         for (int i = 0; i < ids.length; i++) {
             final DefenceAreaLayout dal = (DefenceAreaLayout) findViewById(ids[i]);
-            if(dal.getState()) {
+            if (dal.getState()) {
                 mDefenceAreaManager.enableAlarm(i);
             }
             mDefenceAreaManager.setAlarmType(i, dal.getType());
@@ -105,7 +119,7 @@ public class DefenceAreaActivity extends Activity implements View.OnClickListene
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         ArrayList<String> list = new ArrayList<>();
-        for (int i = 0 ; i < mAdapter.getCount(); i++) {
+        for (int i = 0; i < mAdapter.getCount(); i++) {
             list.add(mAdapter.getItem(i));
         }
         outState.putStringArrayList("info", list);
@@ -114,9 +128,9 @@ public class DefenceAreaActivity extends Activity implements View.OnClickListene
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        if( savedInstanceState !=null && savedInstanceState.containsKey("info") && mAdapter!=null ) {
+        if (savedInstanceState != null && savedInstanceState.containsKey("info") && mAdapter != null) {
             ArrayList<String> list = savedInstanceState.getStringArrayList("info");
-            if(list!=null) mAdapter.addAll(list);
+            if (list != null) mAdapter.addAll(list);
             mAdapter.notifyDataSetChanged();
         }
     }
@@ -133,8 +147,15 @@ public class DefenceAreaActivity extends Activity implements View.OnClickListene
             // 按2位1防区读取数据
             for (int i = 0; i < 8; i++) {
                 int status = DFMUtils.readStatusBinary(allStatus, i);
-                if (status != 0) {
+                // 读取当前状态，如果和之前的不一致，且为1，则触发
+                if (statusCode[i] != status && status == 1) {
+                    mHandler.sendEmptyMessage(i * 10 + 1);
                     mAdapter.add("防区" + i + " 触发于" + mFormat.format(new Date(alarmTime)));
+                }
+                statusCode[i] = status;
+                if (mLayouts[i].isLightEnabled() && status == 0) {
+                    // 一秒后关闭
+                    mHandler.sendEmptyMessageDelayed(i * 10, 1000);
                 }
             }
         }
@@ -152,4 +173,21 @@ public class DefenceAreaActivity extends Activity implements View.OnClickListene
             checkAllStatus();
         }
     }
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            int what = msg.what;
+            int num = what / 10;
+            int opt = what % 10;
+            if (opt == 0) {
+                //1亮灯，0就代表1秒后关闭
+                mLayouts[num].enableLight(false);
+            } else {
+                removeMessages(what - 1);
+                mLayouts[num].enableLight(true);
+            }
+        }
+    };
 }

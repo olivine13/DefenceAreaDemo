@@ -43,7 +43,11 @@ public class DefenceAreaLayout extends LinearLayout implements RadioGroup.OnChec
     @BindView(R.id.radioButton_close)
     RadioButton mBtnClose;
 
+    @BindView(R.id.circle)
+    TextView mCircle;
+
     private String mName = "防区";
+    private  int mNum = 0;
     private boolean mState = true;
     private int mType = 0;
 
@@ -63,36 +67,12 @@ public class DefenceAreaLayout extends LinearLayout implements RadioGroup.OnChec
         inflate(context, R.layout.layout_defence_area, this);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DefenceAreaLayout, 0, 0);
-        mName = a.getString(R.styleable.DefenceAreaLayout_defenceAreaName);
+        mNum = a.getInteger(R.styleable.DefenceAreaLayout_num, 0);
+        mName = "防区" + mNum;
         mState = a.getBoolean(R.styleable.DefenceAreaLayout_open, true);
         mType = a.getInt(R.styleable.DefenceAreaLayout_type, 0);
         a.recycle();
     }
-
-//    @Nullable
-//    @Override
-//    protected Parcelable onSaveInstanceState() {
-//        Parcelable state = super.onSaveInstanceState();
-//        SavedState ss = new SavedState(state);
-//        ss.name = mName;
-//        ss.state = mState;
-//        ss.type = mType;
-//        return ss;
-//    }
-//
-//    @Override
-//    protected void onRestoreInstanceState(Parcelable state) {
-//        if( !(state instanceof SavedState)) {
-//            super.onRestoreInstanceState(state);
-//            return;
-//        }
-//        SavedState ss = (SavedState)state;
-//        super.onRestoreInstanceState(ss.getSuperState());
-//
-//        mName = ss.name;
-//        mState = ss.state;
-//        mType = ss.type;
-//    }
 
     public String getName() {
         return mName;
@@ -104,6 +84,14 @@ public class DefenceAreaLayout extends LinearLayout implements RadioGroup.OnChec
 
     public int getType() {
         return mType;
+    }
+
+    public void enableLight(boolean flag) {
+        mCircle.setSelected(flag);
+    }
+
+    public boolean isLightEnabled() {
+        return mCircle.isSelected();
     }
 
     public void setOnSwitcherListener(OnSwitcherListener onSwitcherListener) {
@@ -123,6 +111,8 @@ public class DefenceAreaLayout extends LinearLayout implements RadioGroup.OnChec
         mSwitch.setOnCheckedChangeListener(this);
         mSwitch.setChecked(mState);
 
+        mCircle.setText(String.valueOf(mNum));
+
         mRadioGroup.check(mType == 0 ? R.id.radioButton_open : R.id.radioButton_close);
         mRadioGroup.setOnCheckedChangeListener(this);
     }
@@ -132,6 +122,7 @@ public class DefenceAreaLayout extends LinearLayout implements RadioGroup.OnChec
         if (mOnSwitcherListener != null) {
             mState = isChecked;
             mOnSwitcherListener.onSwitched(isChecked);
+            mCircle.setEnabled(isChecked);
         }
     }
 

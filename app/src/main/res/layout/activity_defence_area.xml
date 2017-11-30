@@ -28,7 +28,7 @@
         android:id="@+id/dal0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:defenceAreaName="防区0"
+        app:num="0"
         app:open="true"
         app:type="1"/>
 
@@ -36,7 +36,7 @@
         android:id="@+id/dal1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:defenceAreaName="防区1"
+        app:num="1"
         app:open="true"
         app:type="1"/>
 
@@ -44,7 +44,7 @@
         android:id="@+id/dal2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:defenceAreaName="防区2"
+        app:num="2"
         app:open="true"
         app:type="1"/>
 
@@ -52,7 +52,7 @@
         android:id="@+id/dal3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:defenceAreaName="防区3"
+        app:num="3"
         app:open="true"
         app:type="1"/>
 
@@ -60,7 +60,7 @@
         android:id="@+id/dal4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:defenceAreaName="防区4"
+        app:num="4"
         app:open="true"
         app:type="1"/>
 
@@ -68,7 +68,7 @@
         android:id="@+id/dal5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:defenceAreaName="防区5"
+        app:num="5"
         app:open="true"
         app:type="1"/>
 
@@ -76,7 +76,7 @@
         android:id="@+id/dal6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:defenceAreaName="防区6"
+        app:num="6"
         app:open="true"
         app:type="1"/>
 
@@ -84,7 +84,7 @@
         android:id="@+id/dal7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:defenceAreaName="防区7"
+        app:num="7"
         app:open="true"
         app:type="0"/>
 
