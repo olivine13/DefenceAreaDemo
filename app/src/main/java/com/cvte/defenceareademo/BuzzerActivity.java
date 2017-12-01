@@ -9,6 +9,7 @@ import com.cvte.defencearea.DFMUtils;
 import com.cvte.defencearea.DefenceAreaManager;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * TODO Description
@@ -24,16 +25,21 @@ public class BuzzerActivity extends Activity implements View.OnClickListener {
     @BindView(R.id.stop)
     View mBtnStop;
 
+    @BindView(R.id.exit)
+    View mBtnExit;
+
     DefenceAreaManager mDefenceAreaManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buzzer);
+        ButterKnife.bind(this);
 
         mDefenceAreaManager = DFMUtils.getSystemService(this);
         mBtnPlay.setOnClickListener(this);
         mBtnStop.setOnClickListener(this);
+        mBtnExit.setOnClickListener(this);
     }
 
     @Override
@@ -48,6 +54,8 @@ public class BuzzerActivity extends Activity implements View.OnClickListener {
             mDefenceAreaManager.playBuzzer();
         } else if (v.getId() == R.id.stop) {
             mDefenceAreaManager.stopBuzzer();
+        } else if(v.getId() == R.id.exit) {
+            finish();
         }
     }
 }

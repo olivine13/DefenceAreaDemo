@@ -42,6 +42,9 @@ public class DefenceAreaActivity extends Activity implements View.OnClickListene
     ListView mListView;
     ArrayAdapter<String> mAdapter;
 
+    @BindView(R.id.exit)
+    View mBtnExit;
+
     private int[] ids = new int[]{
             R.id.dal0, R.id.dal1, R.id.dal2, R.id.dal3, R.id.dal4, R.id.dal5, R.id.dal6, R.id.dal7
     };
@@ -72,6 +75,7 @@ public class DefenceAreaActivity extends Activity implements View.OnClickListene
     private void initViews() {
         mOpenAll.setOnClickListener(this);
         mCloseAll.setOnClickListener(this);
+        mBtnExit.setOnClickListener(this);
         mListView.setAdapter(mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1));
 
         for (int i = 0; i < ids.length; i++) {
@@ -171,6 +175,8 @@ public class DefenceAreaActivity extends Activity implements View.OnClickListene
             mDefenceAreaManager.disableAllAlarm();
             mAdapter.add("关闭所有防区");
             checkAllStatus();
+        } else if(v.getId() == R.id.exit) {
+            finish();
         }
     }
 
