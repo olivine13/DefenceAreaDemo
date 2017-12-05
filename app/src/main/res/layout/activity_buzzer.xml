@@ -19,13 +19,17 @@
                 android:id="@+id/play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="打开蜂鸣器"/>
+                android:padding="15dp"
+                android:text="打开蜂鸣器"
+                android:textSize="30dp"/>
 
             <Button
                 android:id="@+id/stop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="关闭蜂鸣器"/>
+                android:padding="15dp"
+                android:text="关闭蜂鸣器"
+                android:textSize="30dp"/>
         </LinearLayout>
 
         <Button
@@ -35,7 +39,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="36dp"
             android:text="退出"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"/>
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            android:textSize="36dp"/>
     </LinearLayout>
 
 </FrameLayout>
