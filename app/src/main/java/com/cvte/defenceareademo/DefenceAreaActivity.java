@@ -85,7 +85,7 @@ public class DefenceAreaActivity extends Activity implements View.OnClickListene
                 mDefenceAreaManager.enableAlarm(num);
             }
             mDefenceAreaManager.setAlarmType(num, mLayouts[i].getType());
-            statusCode[i] = mDefenceAreaManager.checkAlarmStatus(i) ? 0 : 1;
+            statusCode[i] = mDefenceAreaManager.checkAlarmStatus(i) ? 1 : 0;
             Log.i("Test", "defencearea " + i + " : " + statusCode[i]);
             mLayouts[i].setOnSwitcherListener(new DefenceAreaLayout.OnSwitcherListener() {
                 @Override
