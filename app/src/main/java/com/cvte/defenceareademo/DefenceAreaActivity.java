@@ -32,6 +32,8 @@ import butterknife.ButterKnife;
  */
 public class DefenceAreaActivity extends Activity implements View.OnClickListener {
 
+    private static final String TAG = DefenceAreaActivity.class.getSimpleName();
+
     @BindView(R.id.open_all)
     Button mOpenAll;
 
@@ -58,15 +60,25 @@ public class DefenceAreaActivity extends Activity implements View.OnClickListene
             0, 0, 0, 0, 0, 0, 0, 0
     };
 
+    long t = 0;
+
+    private void caculateTime(String label) {
+        Log.d(TAG, label + " waste " + (System.currentTimeMillis() - t) + " ms");
+        t = System.currentTimeMillis();
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        t = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_defence_area);
         ButterKnife.bind(this);
+        caculateTime("init views");
 
         //==================测试防区功能==================//
         mDefenceAreaManager = DFMUtils.getSystemService(this);
 
+        caculateTime("init service");
         initViews();
         mDefenceAreaManager.addDefenceAreaCallback(mCallback);
 
@@ -106,6 +118,7 @@ public class DefenceAreaActivity extends Activity implements View.OnClickListene
                     mAdapter.add("设置 " + mLayouts[num].getName() + " 类型 " + (type == 0 ? "开路报警" : "闭路报警"));
                 }
             });
+            caculateTime("check alram"+i);
         }
     }
 
@@ -175,7 +188,7 @@ public class DefenceAreaActivity extends Activity implements View.OnClickListene
             mDefenceAreaManager.disableAllAlarm();
             mAdapter.add("关闭所有防区");
             checkAllStatus();
-        } else if(v.getId() == R.id.exit) {
+        } else if (v.getId() == R.id.exit) {
             finish();
         }
     }

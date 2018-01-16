@@ -36,69 +36,80 @@
                     android:text="关闭所有"/>
             </LinearLayout>
 
-            <com.cvte.defenceareademo.DefenceAreaLayout
-                android:id="@+id/dal0"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:num="0"
-                app:open="true"
-                app:type="1"/>
+                android:layout_height="match_parent">
 
-            <com.cvte.defenceareademo.DefenceAreaLayout
-                android:id="@+id/dal1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:num="1"
-                app:open="true"
-                app:type="1"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-            <com.cvte.defenceareademo.DefenceAreaLayout
-                android:id="@+id/dal2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:num="2"
-                app:open="true"
-                app:type="1"/>
+                    <com.cvte.defenceareademo.DefenceAreaLayout
+                        android:id="@+id/dal0"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:num="0"
+                        app:open="true"
+                        app:type="1"/>
 
-            <com.cvte.defenceareademo.DefenceAreaLayout
-                android:id="@+id/dal3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:num="3"
-                app:open="true"
-                app:type="1"/>
+                    <com.cvte.defenceareademo.DefenceAreaLayout
+                        android:id="@+id/dal1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:num="1"
+                        app:open="true"
+                        app:type="1"/>
 
-            <com.cvte.defenceareademo.DefenceAreaLayout
-                android:id="@+id/dal4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:num="4"
-                app:open="true"
-                app:type="1"/>
+                    <com.cvte.defenceareademo.DefenceAreaLayout
+                        android:id="@+id/dal2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:num="2"
+                        app:open="true"
+                        app:type="1"/>
 
-            <com.cvte.defenceareademo.DefenceAreaLayout
-                android:id="@+id/dal5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:num="5"
-                app:open="true"
-                app:type="1"/>
+                    <com.cvte.defenceareademo.DefenceAreaLayout
+                        android:id="@+id/dal3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:num="3"
+                        app:open="true"
+                        app:type="1"/>
 
-            <com.cvte.defenceareademo.DefenceAreaLayout
-                android:id="@+id/dal6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:num="6"
-                app:open="true"
-                app:type="1"/>
+                    <com.cvte.defenceareademo.DefenceAreaLayout
+                        android:id="@+id/dal4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:num="4"
+                        app:open="true"
+                        app:type="1"/>
 
-            <com.cvte.defenceareademo.DefenceAreaLayout
-                android:id="@+id/dal7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:num="7"
-                app:open="true"
-                app:type="0"/>
+                    <com.cvte.defenceareademo.DefenceAreaLayout
+                        android:id="@+id/dal5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:num="5"
+                        app:open="true"
+                        app:type="1"/>
+
+                    <com.cvte.defenceareademo.DefenceAreaLayout
+                        android:id="@+id/dal6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:num="6"
+                        app:open="true"
+                        app:type="1"/>
+
+                    <com.cvte.defenceareademo.DefenceAreaLayout
+                        android:id="@+id/dal7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:num="7"
+                        app:open="true"
+                        app:type="0"/>
+                </LinearLayout>
+            </ScrollView>
         </LinearLayout>
 
         <ListView
